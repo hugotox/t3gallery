@@ -1,35 +1,31 @@
+import { desc } from "drizzle-orm";
 import Link from "next/link";
 import { db } from "~/server/db";
+import { images } from "~/server/db/schema";
 
 export const dynamic = "force-dynamic";
 
-const mockUrls = [
-  "https://utfs.io/f/Yi3ViA8DRbmOcTXbnfLAY8MDzBC06NVlQvhsyU3mEgSoInKF",
-  "https://utfs.io/f/Yi3ViA8DRbmO3UA9o4V7hiM1z9uON6wyAqrn2UeoDpkV3YCj",
-  "https://utfs.io/f/Yi3ViA8DRbmOWtSLuafXAiswRnpaZ7cdM35QyHfYrtu20l1b",
-  "https://utfs.io/f/Yi3ViA8DRbmOGdJwVGxucqgRs109zoHY4WnimOjX6kCJ2Ebr",
-  "https://utfs.io/f/Yi3ViA8DRbmO6PfDuUZSaNTK9UCmhOxJAlBM6Wd2eLH4ZPYD",
-  "https://utfs.io/f/Yi3ViA8DRbmO2X2gXRcTmpb4uOD50isgGHU39PCQeSIYvM8j",
-];
-
-const mockImages = mockUrls.map((url) => ({
-  id: url,
-  url,
-}));
-
 export default async function HomePage() {
-  const posts = await db.query.posts.findMany();
-  console.log({ posts });
+  const imageList = await db.query.images.findMany({
+    orderBy: desc(images.name),
+  });
   return (
     <main className="">
       <div className="flex flex-wrap gap-3">
-        {mockImages.map((image) => (
-          <div key={image.id} className="w-48 p-4">
-            <img src={image.url} alt="" />
+        {imageList.map((image) => (
+          <div
+            key={image.id}
+            className="flex h-32 w-32 flex-col gap-1 rounded-sm bg-slate-200 p-2"
+          >
+            <img
+              src={image.url}
+              alt={image.name}
+              className="h-20 object-contain"
+            />
+            <div>{image.name}</div>
           </div>
         ))}
       </div>
-      <pre>{JSON.stringify(posts, null, 2)}</pre>
     </main>
   );
 }
