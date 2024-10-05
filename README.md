@@ -6,7 +6,8 @@
 - [x] Scaffold basic UI with mock data
 - [x] Setup a database (vercel)
 - [x] Attach DB to UI
-- [ ] Add authentication (w/clerk)
+- [x] Add authentication (w/clerk)
+- [ ] "taint" server only
 - [ ] Add image upload
 - [ ] Error management (w/sentry)
 - [ ] Routing/image page (parallel route)
