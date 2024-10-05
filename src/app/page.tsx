@@ -19,7 +19,7 @@ function Images({ imageList }: { imageList: SelectImages[] }) {
             alt={image.name}
             className="h-20 object-contain"
           />
-          <div>{image.name}</div>
+          <div className="text-xs">{image.name}</div>
         </div>
       ))}
     </div>
@@ -39,6 +39,7 @@ export default async function HomePage() {
       </SignedOut>
       <SignedIn>
         <Images imageList={imageList} />
+        <br />
         <FileUploader />
       </SignedIn>
     </main>
