@@ -1,6 +1,6 @@
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { desc } from "drizzle-orm";
-import Link from "next/link";
+import { FileUploader } from "~/app/_components/file-uploader";
 import { db } from "~/server/db";
 import { images, type SelectImages } from "~/server/db/schema";
 
@@ -34,12 +34,12 @@ export default async function HomePage() {
     <main className="">
       <SignedOut>
         <div className="p-40 text-center">
-          {" "}
           Please sign in to view the gallery.
         </div>
       </SignedOut>
       <SignedIn>
         <Images imageList={imageList} />
+        <FileUploader />
       </SignedIn>
     </main>
   );
