@@ -1,12 +1,11 @@
 import { SignedIn, SignedOut } from "@clerk/nextjs";
-import { desc } from "drizzle-orm";
 import { FileUploader } from "~/app/_components/file-uploader";
-import { db } from "~/server/db";
-import { images, type SelectImages } from "~/server/db/schema";
+import { getImages } from "~/server/db/queries";
 
 export const dynamic = "force-dynamic";
 
-function Images({ imageList }: { imageList: SelectImages[] }) {
+async function Images() {
+  const imageList = await getImages();
   return (
     <div className="flex flex-wrap gap-3">
       {imageList.map((image) => (
@@ -27,9 +26,6 @@ function Images({ imageList }: { imageList: SelectImages[] }) {
 }
 
 export default async function HomePage() {
-  const imageList = await db.query.images.findMany({
-    orderBy: desc(images.name),
-  });
   return (
     <main className="">
       <SignedOut>
@@ -38,7 +34,7 @@ export default async function HomePage() {
         </div>
       </SignedOut>
       <SignedIn>
-        <Images imageList={imageList} />
+        <Images />
         <br />
         <FileUploader />
       </SignedIn>
